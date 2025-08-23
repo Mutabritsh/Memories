@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Memories</string>
+    <string name="home">home</string>
+    <string name="add">add</string>
+    <string name="info">info</string>
+    <string name="location">location</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lorem_ipsum">About Us
+
+At [Your App Name], we believe memories are the most valuable treasures we own. Our mission is simple — to give you a safe, beautiful, and effortless way to capture, store, and share life’s most important moments. Whether it’s a photo from your first trip abroad, a voice note from a loved one, or a video of a milestone celebration, we make sure your memories stay vivid and accessible for years to come.
+
+Behind our app is a dedicated and passionate team of innovators, designers, and storytellers who share one vision: to protect your precious moments with care and creativity. We combine cutting-edge technology with a heartfelt commitment to helping people hold on to the experiences that shape who they are. Every feature we create, every update we release, and every support request we answer comes from our genuine desire to make your memory-keeping experience seamless and meaningful.
+
+We’re more than just a tech team — we’re memory keepers, too. We understand that each picture, video, and story is more than data; it’s a piece of your life. And we’re honored to help you preserve it.
+
+Your memories are our mission.</string>
+    <string name="about_us">About Us</string>
+
+    <string name="our_mission">"Our mission is to safeguard life’s most precious moments, empowering individuals to securely store, preserve, and revisit their memories. We are dedicated to creating a trusted space where forgotten experiences can be rediscovered, cherished, and shared for generations to come."</string>
+    <string name="mission_statement">Misson Statment</string>
+    <string name="my_map_api_key">AIzaSyCqAF5Wgfxyjzy1WYZoEwAtzVaiErLTJWA</string>
+    <string name="google_maps_key">AIzaSyCqAF5Wgfxyjzy1WYZoEwAtzVaiErLTJWA</string>
+    <string name="list">list</string>
+</resources>
