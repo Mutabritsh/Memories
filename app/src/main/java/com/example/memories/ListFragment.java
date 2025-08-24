@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,19 @@ public class ListFragment extends Fragment {
 
         adapter = new MemoryAdapter(getContext(), memoryList);
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
+
+                if (dy > 0 && bottomNav.isShown()) {
+                    bottomNav.animate().translationY(bottomNav.getHeight()).setDuration(200);
+                } else if (dy < 0) {
+                    bottomNav.animate().translationY(0).setDuration(200);
+                }
+            }
+        });
 
         return view;
     }

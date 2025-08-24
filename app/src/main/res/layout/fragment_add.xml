@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddFragment"
-    android:background="@color/white">
+    android:background="@drawable/darkbrown">
 
 
     <ImageView
@@ -43,9 +43,11 @@
         android:ems="10"
         android:inputType="text"
         android:hint="Title"
+        android:textColorHint="@color/light_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chooseImageButton" />
+        app:layout_constraintTop_toBottomOf="@+id/chooseImageButton"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/description"
@@ -61,10 +63,12 @@
         android:scrollbars="vertical"
         android:singleLine="false"
         android:hint="Description"
+        android:textColorHint="@color/light_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/location"
@@ -72,29 +76,36 @@
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
         android:hint="@string/location"
+        android:textColorHint="@color/light_white"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
     <Button
         android:id="@+id/getlocationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_width="131dp"
+        android:layout_height="105dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/square_button"
         android:text="Get Location"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/location" />
 
     <Button
         android:id="@+id/savememoryButton"
-        android:layout_width="225dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="36dp"
+        android:layout_width="131dp"
+        android:layout_height="105dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/square_button"
         android:text="Save Memory"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.881"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/getlocationButton" />
+        app:layout_constraintTop_toBottomOf="@+id/location"
+        />
 
 
     />
