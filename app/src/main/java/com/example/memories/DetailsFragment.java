@@ -1,5 +1,6 @@
 package com.example.memories;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 
 import android.net.Uri;
+import android.widget.Toast;
 
 
 public class DetailsFragment extends Fragment {
@@ -45,6 +47,35 @@ public class DetailsFragment extends Fragment {
                 image.setImageBitmap(bitmap);
             }
         }
+
+        // ---- Add this part for clickable location ----
+        // ---- Click listener for location text AND image ----
+        String loc = bundle.getString("location");
+        View.OnClickListener openMapListener = v -> {
+            if (loc != null && !loc.isEmpty()) {
+                Uri geoUri;
+                if (loc.matches("-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?")) {
+                    // lat,long
+                    geoUri = Uri.parse("geo:" + loc + "?q=" + loc);
+                } else {
+                    // Address string
+                    geoUri = Uri.parse("geo:0,0?q=" + Uri.encode(loc));
+                }
+
+                Intent intent = new Intent(Intent.ACTION_VIEW, geoUri);
+                intent.setPackage("com.google.android.apps.maps");
+                if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), "No Maps app found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        location.setOnClickListener(openMapListener);
+        image.setOnClickListener(openMapListener); // same action for image
+        // -----------------------------------------------
+
 
         return view;
     }

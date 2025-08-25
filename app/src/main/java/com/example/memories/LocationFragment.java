@@ -79,10 +79,6 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Default marker (Kingston, Jamaica)
-        LatLng kingston = new LatLng(17.9714, -76.7936);
-        mMap.addMarker(new MarkerOptions().position(kingston).title("Marker in Kingston"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(kingston, 12f));
 
         // Ask for location permission
         checkLocationPermission();
@@ -132,24 +128,36 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(requireContext(),
                         Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
             mMap.setMyLocationEnabled(true);
         }
+
         if (fusedLocationClient == null) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         }
 
-        // Get current location
         fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
-                // Save location in ViewModel
+                LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+                // Move camera to current location
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 15f));
+
+                // Add marker at current location
+                mMap.addMarker(new MarkerOptions()
+                        .position(myLatLng)
+                        .title("My Location"));
+
+                // Save in ViewModel
                 if (viewModel == null) {
                     viewModel = new ViewModelProvider(requireActivity()).get(LocationViewModel.class);
                 }
                 viewModel.setLocation(location);
+
+            } else {
+                Toast.makeText(getContext(), "Unable to get current location", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 }
 

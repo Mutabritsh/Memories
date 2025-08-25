@@ -162,6 +162,7 @@ public class AddFragment extends Fragment {
 
         return view;
     }
+    // Method to handle image orientation
     private Bitmap handleImageOrientation(Uri imageUri) throws IOException {
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
 
@@ -190,6 +191,7 @@ public class AddFragment extends Fragment {
         return bitmap;
     }
 
+// Using Activity Result API to handle image selection
     private ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -207,25 +209,5 @@ public class AddFragment extends Fragment {
             }
     );
 
-//    private ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            result -> {
-//                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-//                    Uri imageUri = result.getData().getData();
-//                    try {
-//                        // Convert URI to Bitmap
-//                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
-//                        // Set bitmap to ImageView
-//                        memoryImageView.setImageBitmap(bitmap);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                        Toast.makeText(getActivity(), "Failed to load image", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            }
-//    );
-
-
-        
-    }
+}
 
