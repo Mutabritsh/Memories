@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new LocationFragment();
                 } else if (id == R.id.nav_list) {
                     fragment = new ListFragment();
-                } else if (id == R.id.nav_details) {
-                    fragment = new DetailsFragment();
                 }
                 if (fragment != null) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.body_container, fragment).commit();

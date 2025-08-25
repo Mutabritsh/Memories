@@ -51,24 +51,24 @@
 
     <EditText
         android:id="@+id/description"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
+        android:layout_width="348dp"
+        android:layout_height="78dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:drawableStart="@drawable/ic_description"
         android:ems="10"
+        android:hint="Description"
         android:inputType="textMultiLine"
         android:lines="4"
         android:scrollbars="vertical"
         android:singleLine="false"
-        android:hint="Description"
+        android:textColor="@color/white"
         android:textColorHint="@color/light_white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        android:textColor="@color/white"/>
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/location"

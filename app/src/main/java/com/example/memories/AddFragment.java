@@ -7,9 +7,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -147,16 +149,45 @@ public class AddFragment extends Fragment {
 
                 Toast.makeText(getActivity(), "Memory Saved!", Toast.LENGTH_SHORT).show();
 
-                // Optionally clear inputs
+                // clear inputs
                 title.setText("");
                 description.setText("");
                 locationTextView.setText("");
                 memoryImageView.setImageResource(0); // clear image
+
+
             }
         });
 
 
         return view;
+    }
+    private Bitmap handleImageOrientation(Uri imageUri) throws IOException {
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
+
+        ExifInterface exif = new ExifInterface(requireActivity().getContentResolver().openInputStream(imageUri));
+        int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+        int rotation = 0;
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                rotation = 90;
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                rotation = 180;
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                rotation = 270;
+                break;
+        }
+
+        if (rotation != 0) {
+            Matrix matrix = new Matrix();
+            matrix.postRotate(rotation);
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        }
+
+        return bitmap;
     }
 
     private ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
@@ -165,9 +196,8 @@ public class AddFragment extends Fragment {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                     Uri imageUri = result.getData().getData();
                     try {
-                        // Convert URI to Bitmap
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
-                        // Set bitmap to ImageView
+                        // Fix orientation before setting to ImageView
+                        Bitmap bitmap = handleImageOrientation(imageUri);
                         memoryImageView.setImageBitmap(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -176,6 +206,24 @@ public class AddFragment extends Fragment {
                 }
             }
     );
+
+//    private ActivityResultLauncher<Intent> resultLauncher = registerForActivityResult(
+//            new ActivityResultContracts.StartActivityForResult(),
+//            result -> {
+//                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+//                    Uri imageUri = result.getData().getData();
+//                    try {
+//                        // Convert URI to Bitmap
+//                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), imageUri);
+//                        // Set bitmap to ImageView
+//                        memoryImageView.setImageBitmap(bitmap);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        Toast.makeText(getActivity(), "Failed to load image", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//    );
 
 
         
