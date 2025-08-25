@@ -45,7 +45,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:20.2.0")
     implementation("com.google.android.gms:play-services-auth-api-phone:18.0.1")
     implementation("com.google.android.gms:play-services-location:20.0.0")
-    implementation ("com.google.android.libraries.places:places:3.5.0")
+    implementation ("com.google.android.libraries.places:places:4.4.1")
 
 
 }

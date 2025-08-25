@@ -53,6 +53,23 @@ public class ListFragment extends Fragment {
         adapter = new MemoryAdapter(getContext(), memoryList);
         recyclerView.setAdapter(adapter);
 
+        adapter.setOnMemoryClickListener(memory -> {
+            DetailsFragment detailsFragment = new DetailsFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putString("title", memory.getTitle());
+            bundle.putString("description", memory.getDescription());
+            bundle.putString("location", memory.getLocation());
+            bundle.putByteArray("image", memory.getImage());
+            detailsFragment.setArguments(bundle);
+
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.body_container, detailsFragment) // use your container id
+                    .addToBackStack(null)
+                    .commit();
+        });
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -65,6 +82,7 @@ public class ListFragment extends Fragment {
                 }
             }
         });
+
 
         return view;
     }

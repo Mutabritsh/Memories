@@ -17,6 +17,10 @@
         android:title="@string/location"
         android:icon="@drawable/ic_location"/>
 
+    <item android:id="@+id/nav_details"
+        android:title="details"
+        android:icon="@drawable/ic_details"/>
+
 
 
 

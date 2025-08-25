@@ -19,6 +19,15 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoryView
 
     private Context context;
     private List<Memory> memoryList;
+    private OnMemoryClickListener listener;
+
+    public interface OnMemoryClickListener {
+        void onMemoryClick(Memory memory);
+    }
+
+    public void setOnMemoryClickListener(OnMemoryClickListener listener) {
+        this.listener = listener;
+    }
 
     public MemoryAdapter(Context context, List<Memory> memoryList) {
         this.context = context;
@@ -46,7 +55,12 @@ public class MemoryAdapter extends RecyclerView.Adapter<MemoryAdapter.MemoryView
             Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
             holder.image.setImageBitmap(bitmap);
         }
-    }
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onMemoryClick(memory);
+            }
+        });
+}
 
     @Override
     public int getItemCount() {
