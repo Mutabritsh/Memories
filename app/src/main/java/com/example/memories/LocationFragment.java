@@ -1,7 +1,10 @@
 package com.example.memories;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -16,6 +19,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
@@ -39,8 +44,8 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationViewModel viewModel;
+    private ImageView locationImage;
 
-    // Permission launcher
     private final ActivityResultLauncher<String[]> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
                 Boolean fineLocationGranted = result.getOrDefault(
@@ -63,6 +68,21 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_location, container, false);
 
+        // Find ImageView
+        locationImage = view.findViewById(R.id.locationImage);
+
+        // Load image from bundle
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            byte[] imageBytes = bundle.getByteArray("image");
+            if (imageBytes != null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                locationImage.setImageBitmap(bitmap);
+
+                //fullscreen popup on click
+                locationImage.setOnClickListener(v -> showImagePopup(bitmap));
+            }
+        }
 
         // Load map
         SupportMapFragment mapFragment = (SupportMapFragment)
@@ -75,39 +95,26 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
+    private void showImagePopup(Bitmap bitmap) {
+        Dialog dialog = new Dialog(requireContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        ImageView imageView = new ImageView(requireContext());
+        imageView.setImageBitmap(bitmap);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+        dialog.setContentView(imageView);
+        imageView.setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
+    }
+
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-
-
-        // Ask for location permission
         checkLocationPermission();
-        AutocompleteSupportFragment autocompleteFragment =
-                (AutocompleteSupportFragment) getChildFragmentManager()
-                        .findFragmentById(R.id.autocomplete_fragment);
-        Places.initialize(requireContext().getApplicationContext(), "AIzaSyCqAF5Wgfxyjzy1WYZoEwAtzVaiErLTJWA");
 
-// Set the types of place data to return
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                // Move map to the selected location
-                if (place.getLatLng() != null) {
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 15f));
-                    mMap.addMarker(new MarkerOptions().position(place.getLatLng()).title(place.getName()));
-                }
-            }
-
-            @Override
-            public void onError(@NonNull Status status) {
-                Log.e("Places", "An error occurred: " + status);
-            }
-        });
 
     }
-
 
     private void checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(requireContext(),
@@ -139,16 +146,9 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
         fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
                 LatLng myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-                // Move camera to current location
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 15f));
+                mMap.addMarker(new MarkerOptions().position(myLatLng).title("My Location"));
 
-                // Add marker at current location
-                mMap.addMarker(new MarkerOptions()
-                        .position(myLatLng)
-                        .title("My Location"));
-
-                // Save in ViewModel
                 if (viewModel == null) {
                     viewModel = new ViewModelProvider(requireActivity()).get(LocationViewModel.class);
                 }
@@ -160,4 +160,5 @@ public class LocationFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 }
+
 

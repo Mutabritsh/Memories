@@ -22,9 +22,16 @@ import android.widget.TextView;
 import android.net.Uri;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
+
 public class DetailsFragment extends Fragment {
 
     private Bitmap currentBitmap; // store bitmap for popup
+    public static byte[] imageToBytes(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
 
     @Nullable
     @Override
@@ -105,67 +112,18 @@ public class DetailsFragment extends Fragment {
         imageView.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
+
+        LocationFragment locationFragment = new LocationFragment();
+        Bundle bundle = new Bundle();
+        bundle.putByteArray("image", currentBitmap != null ? imageToBytes(currentBitmap) : null);
+        locationFragment.setArguments(bundle);
+
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, locationFragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
 
 
-//public class DetailsFragment extends Fragment {
-//
-//    @Nullable
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater,
-//                             @Nullable ViewGroup container,
-//                             @Nullable Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_details, container, false);
-//
-//        TextView title = view.findViewById(R.id.detailTitle);
-//        TextView description = view.findViewById(R.id.detailDescription);
-//        TextView location = view.findViewById(R.id.detailLocation);
-//        ImageView image = view.findViewById(R.id.detailImage);
-//
-//        Bundle bundle = getArguments();
-//        if (bundle != null) {
-//            title.setText(bundle.getString("title"));
-//            description.setText(bundle.getString("description"));
-//            location.setText(bundle.getString("location"));
-//
-//            byte[] imageBytes = bundle.getByteArray("image");
-//            if (imageBytes != null) {
-//                Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-//                image.setImageBitmap(bitmap);
-//            }
-//        }
-//
-//        // ---- Add this part for clickable location ----
-//        // ---- Click listener for location text AND image ----
-//        String loc = bundle.getString("location");
-//        View.OnClickListener openMapListener = v -> {
-//            if (loc != null && !loc.isEmpty()) {
-//                Uri geoUri;
-//                if (loc.matches("-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?")) {
-//                    // lat,long
-//                    geoUri = Uri.parse("geo:" + loc + "?q=" + loc);
-//                } else {
-//                    // Address string
-//                    geoUri = Uri.parse("geo:0,0?q=" + Uri.encode(loc));
-//                }
-//
-//                Intent intent = new Intent(Intent.ACTION_VIEW, geoUri);
-//                intent.setPackage("com.google.android.apps.maps");
-//                if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
-//                    startActivity(intent);
-//                } else {
-//                    Toast.makeText(getContext(), "No Maps app found", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        };
-//
-//        location.setOnClickListener(openMapListener);
-//        image.setOnClickListener(openMapListener); // same action for image
-//        // -----------------------------------------------
-//
-//
-//        return view;
-//    }
-//}
-//
+
