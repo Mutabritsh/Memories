@@ -25,28 +25,10 @@
         android:hint="Search here"
         android:iconifiedByDefault="false"
         android:elevation="5dp"
-        android:background="@drawable/backg_searchview"
+        android:background="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-<!--    <com.google.android.libraries.places.widget.AutocompleteFragment-->
-
-
-
-
-
-<!--    <androidx.appcompat.widget.SearchView-->
-<!--        android:id="@+id/mapSearch"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="50dp"-->
-<!--        android:layout_margin="10dp"-->
-<!--        android:hint="Search here"-->
-<!--        android:iconifiedByDefault="false"-->
-<!--        android:elevation="5dp"-->
-<!--        android:background="@drawable/backg_searchview"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"/>-->
 
 
 
