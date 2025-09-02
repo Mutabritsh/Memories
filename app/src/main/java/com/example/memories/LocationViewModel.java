@@ -15,5 +15,6 @@ public class LocationViewModel extends ViewModel {
 
     public LiveData<Location> getLocation() {
         return currentLocation;
+
     }
 }
