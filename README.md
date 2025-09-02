@@ -1,2 +1,5 @@
 # Memories
 VTI course final project
+This project, "Memories," is a proof of concept that demonstrates the knowledge I have learned in this class. It has a home page and an add page where I can add data that will be used in my database, such as an image from the photo gallery, the title of the selected image, a description of the image, and a location. These parameters are then used to create a list of these data that the user can scroll through. When you click the image in the "Details View," a popup of the full image will appear; if you click the location, Google Maps will open and take you there. Unfortunately, there are some faults because I was unable to implement the location. Implementing the place in my own location view leads you to Google Maps, which is already installed on your phone, and it does not show the photograph that was shot at that location.
+I believe the time allotted to finish the project was ample, but I was unable to appropriately use this time due to a poor work-life balance, resulting in the time I spent on the project being smaller than typical. 
+https://github.com/Mutabritsh/Memories.git
